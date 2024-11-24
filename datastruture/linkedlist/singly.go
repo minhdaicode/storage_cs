@@ -52,11 +52,12 @@ func (l *Singly[T]) Insert(data T, pos int) error {
 	if pos < 0 || pos > l.size {
 		return ErrPosOutOfRange
 	}
-	if pos == 0 {
+	switch {
+	case pos == 0:
 		l.InsertHead(data)
-	} else if pos == l.size {
+	case pos == l.size:
 		l.InsertTail(data)
-	} else {
+	default:
 		cur := l.Head
 		prev := cur
 		for i := 0; cur.Next != nil; i++ {
@@ -70,9 +71,58 @@ func (l *Singly[T]) Insert(data T, pos int) error {
 			prev = cur
 			cur = cur.Next
 		}
-
 	}
 	return nil
+}
+
+func (l *Singly[T]) RemoveHead() error {
+	if l.IsEmpty() {
+		return ErrListEmpty
+	}
+	l.Head = l.Head.Next
+	l.size--
+	return nil
+}
+
+func (l *Singly[T]) RemoveTail() error {
+	switch {
+	case l.IsEmpty():
+		return ErrListEmpty
+	case l.Head.Next == nil:
+		return l.RemoveHead()
+	default:
+		cur := l.Head
+		for cur.Next.Next != nil {
+			cur = cur.Next
+		}
+		cur.Next = nil
+		l.size--
+		return nil
+	}
+}
+
+func (l *Singly[T]) Remove(pos int) error {
+	switch {
+	case pos < 0 || pos > l.size:
+		return ErrPosOutOfRange
+	case pos == 0:
+		return l.RemoveHead()
+	case pos == l.size:
+		return l.RemoveTail()
+	default:
+		cur := l.Head
+		prev := cur
+		for i := 0; cur.Next != nil; i++ {
+			if i == pos {
+				prev.Next = cur.Next
+				l.size--
+				break
+			}
+			prev = cur
+			cur = cur.Next
+		}
+		return nil
+	}
 }
 
 func (l *Singly[T]) Tranverse() {
