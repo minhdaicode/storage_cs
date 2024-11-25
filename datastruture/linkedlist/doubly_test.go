@@ -86,3 +86,133 @@ func TestDoubly_Insert(t *testing.T) {
 	fmt.Println()
 	fmt.Printf("size of list: %v", l.Len())
 }
+
+func TestDoubly_RemoveHead(t *testing.T) {
+	l := linkedlist.NewDoubly[int]()
+
+	err := l.RemoveHead()
+	if err != linkedlist.ErrListEmpty {
+		t.Errorf("something went wrong")
+	}
+
+	l.InsertHead(3)
+	l.InsertHead(2)
+	l.InsertHead(1)
+
+	err = l.RemoveHead()
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	want := []int{2, 3}
+	got := []int{}
+	cur := l.Head
+	got = append(got, cur.Data)
+
+	for cur.Next != nil {
+		cur = cur.Next
+		got = append(got, cur.Data)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got: %v , want: %v", got, want)
+	}
+}
+
+func TestDoubly_RemoveTail(t *testing.T) {
+	l := linkedlist.NewDoubly[int]()
+
+	err := l.RemoveTail()
+	if err != linkedlist.ErrListEmpty {
+		t.Errorf("something went wrong")
+	}
+
+	l.InsertHead(3)
+
+	err = l.RemoveTail()
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	l.InsertTail(7)
+	l.InsertHead(76)
+
+	err = l.RemoveTail()
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	l.InsertHead(2)
+	l.InsertHead(1)
+	l.InsertTail(12)
+	l.InsertTail(5)
+
+	err = l.RemoveTail()
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	want := []int{1, 2, 76, 12}
+	got := []int{}
+	cur := l.Head
+	got = append(got, cur.Data)
+
+	for cur.Next != nil {
+		cur = cur.Next
+		got = append(got, cur.Data)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got: %v , want: %v", got, want)
+	}
+}
+
+func TestDoubly_Remove(t *testing.T) {
+	l := linkedlist.NewDoubly[int]()
+
+	err := l.Remove(-2)
+	if err != linkedlist.ErrPosOutOfRange {
+		t.Errorf("something went wrong")
+	}
+
+	l.InsertHead(3)
+
+	err = l.Remove(0)
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	l.InsertHead(2)
+	l.InsertHead(1)
+	l.InsertTail(12)
+	l.InsertTail(5)
+
+	err = l.Remove(4)
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	err = l.Remove(7)
+	if err != linkedlist.ErrPosOutOfRange {
+		t.Errorf("something went wrong")
+	}
+
+	err = l.Remove(1)
+	if err != nil {
+		t.Errorf("something went wrong")
+	}
+
+	want := []int{1, 12}
+	got := []int{}
+	cur := l.Head
+	got = append(got, cur.Data)
+
+	for cur.Next != nil {
+		cur = cur.Next
+		got = append(got, cur.Data)
+	}
+
+	if !reflect.DeepEqual(got, want) {
+		t.Errorf("got: %v , want: %v", got, want)
+	}
+}

@@ -86,6 +86,58 @@ func (l *Doubly[T]) Insert(data T, pos int) error {
 	return nil
 }
 
+func (l *Doubly[T]) RemoveHead() error {
+	if l.IsEmpty() {
+		return ErrListEmpty
+	}
+	l.Head = l.Head.Next
+	l.size--
+	return nil
+}
+
+func (l *Doubly[T]) RemoveTail() error {
+	if l.IsEmpty() {
+		return ErrListEmpty
+	}
+	switch {
+	case l.size == 1 && l.Head.Next == nil:
+		return l.RemoveHead()
+	case l.size == 2 && l.Tail.Prev == l.Head:
+		l.Tail = nil
+		l.Head.Next = nil
+	default:
+		l.Tail = l.Tail.Prev
+		l.Tail.Next = nil
+	}
+	l.size--
+	return nil
+}
+
+func (l *Doubly[T]) Remove(pos int) error {
+	switch {
+	case pos < 0 || pos > l.size:
+		return ErrPosOutOfRange
+	case pos == 0:
+		return l.RemoveHead()
+	case pos == l.size:
+		return l.RemoveTail()
+	default:
+		cur := l.Head
+		prev := cur
+		for i := 0; cur.Next != nil; i++ {
+			if i == pos {
+				prev.Next = cur.Next
+				cur.Next.Prev = prev
+				l.size--
+				break
+			}
+			prev = cur
+			cur = cur.Next
+		}
+		return nil
+	}
+}
+
 func (l *Doubly[T]) Tranverse() {
 	for cur := l.Head; cur != nil; cur = cur.Next {
 		fmt.Print(cur.Data, " -> ")
