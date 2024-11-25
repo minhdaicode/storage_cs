@@ -7,8 +7,8 @@ import (
 	"testing"
 )
 
-func TestDoubly_InsertHead(t *testing.T) {
-	l := linkedlist.NewDoubly[int]()
+func TestCircular_InsertHead(t *testing.T) {
+	l := linkedlist.NewCircular[int]()
 	l.InsertHead(3)
 	l.InsertHead(2)
 	l.InsertHead(1)
@@ -20,17 +20,19 @@ func TestDoubly_InsertHead(t *testing.T) {
 
 	for cur.Next != nil {
 		cur = cur.Next
+		if cur == l.Tail.Next {
+			break
+		}
 		got = append(got, cur.Data)
 	}
 
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got: %v , want: %v", got, want)
 	}
-
 }
 
-func TestDoubly_InsertTail(t *testing.T) {
-	l := linkedlist.NewDoubly[int]()
+func TestCircular_InsertTail(t *testing.T) {
+	l := linkedlist.NewCircular[int]()
 	l.InsertTail(3)
 	l.InsertTail(2)
 	l.InsertTail(1)
@@ -42,6 +44,9 @@ func TestDoubly_InsertTail(t *testing.T) {
 
 	for cur.Next != nil {
 		cur = cur.Next
+		if cur == l.Tail.Next {
+			break
+		}
 		got = append(got, cur.Data)
 	}
 
@@ -50,8 +55,8 @@ func TestDoubly_InsertTail(t *testing.T) {
 	}
 }
 
-func TestDoubly_Insert(t *testing.T) {
-	l := linkedlist.NewDoubly[int]()
+func TestCircular_Insert(t *testing.T) {
+	l := linkedlist.NewCircular[int]()
 
 	err := l.Insert(12, -2)
 	if err != linkedlist.ErrPosOutOfRange {
@@ -71,6 +76,9 @@ func TestDoubly_Insert(t *testing.T) {
 
 	for cur.Next != nil {
 		cur = cur.Next
+		if cur == l.Tail.Next {
+			break
+		}
 		got = append(got, cur.Data)
 	}
 
@@ -88,8 +96,8 @@ func TestDoubly_Insert(t *testing.T) {
 	fmt.Printf("size of list: %v", l.Len())
 }
 
-func TestDoubly_RemoveHead(t *testing.T) {
-	l := linkedlist.NewDoubly[int]()
+func TestCircular_RemoveHead(t *testing.T) {
+	l := linkedlist.NewCircular[int]()
 
 	err := l.RemoveHead()
 	if err != linkedlist.ErrListEmpty {
@@ -112,6 +120,9 @@ func TestDoubly_RemoveHead(t *testing.T) {
 
 	for cur.Next != nil {
 		cur = cur.Next
+		if cur == l.Tail.Next {
+			break
+		}
 		got = append(got, cur.Data)
 	}
 
@@ -120,8 +131,8 @@ func TestDoubly_RemoveHead(t *testing.T) {
 	}
 }
 
-func TestDoubly_RemoveTail(t *testing.T) {
-	l := linkedlist.NewDoubly[int]()
+func TestCircular_RemoveTail(t *testing.T) {
+	l := linkedlist.NewCircular[int]()
 
 	err := l.RemoveTail()
 	if err != linkedlist.ErrListEmpty {
@@ -160,6 +171,9 @@ func TestDoubly_RemoveTail(t *testing.T) {
 
 	for cur.Next != nil {
 		cur = cur.Next
+		if cur == l.Tail.Next {
+			break
+		}
 		got = append(got, cur.Data)
 	}
 
@@ -168,8 +182,8 @@ func TestDoubly_RemoveTail(t *testing.T) {
 	}
 }
 
-func TestDoubly_Remove(t *testing.T) {
-	l := linkedlist.NewDoubly[int]()
+func TestCircular_Remove(t *testing.T) {
+	l := linkedlist.NewCircular[int]()
 
 	err := l.Remove(-2)
 	if err != linkedlist.ErrPosOutOfRange {
@@ -210,6 +224,9 @@ func TestDoubly_Remove(t *testing.T) {
 
 	for cur.Next != nil {
 		cur = cur.Next
+		if cur == l.Tail.Next {
+			break
+		}
 		got = append(got, cur.Data)
 	}
 
