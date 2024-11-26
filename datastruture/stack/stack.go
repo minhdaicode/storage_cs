@@ -6,6 +6,5 @@ type Stack[T comparable] interface {
 	Peek() (T, error)
 	Size() int
 	IsEmpty() bool
-	IsFull() bool
 	Clear()
 }
