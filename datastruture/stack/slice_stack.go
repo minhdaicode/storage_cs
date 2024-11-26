@@ -38,8 +38,8 @@ func (s *SliceStack[T]) Peek() (T, error) {
 	return data, nil
 }
 
-func (s *SliceStack[T]) Size() uint {
-	return uint(s.top + 1)
+func (s *SliceStack[T]) Size() int {
+	return s.top + 1
 }
 
 func (s *SliceStack[T]) IsEmpty() bool {

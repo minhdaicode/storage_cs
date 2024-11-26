@@ -22,7 +22,7 @@ func NewArrayStack[T comparable](cap uint) *ArrayStack[T] {
 }
 
 func (s *ArrayStack[T]) Push(data T) error {
-	if s.IsFull() {
+	if s.top == int(s.cap)-1 {
 		return ErrIsFull
 	}
 	s.top++
@@ -49,16 +49,12 @@ func (s *ArrayStack[T]) Peek() (T, error) {
 	return data, nil
 }
 
-func (s *ArrayStack[T]) Size() uint {
-	return uint(s.top + 1)
+func (s *ArrayStack[T]) Size() int {
+	return s.top + 1
 }
 
 func (s *ArrayStack[T]) IsEmpty() bool {
 	return s.top == -1
-}
-
-func (s *ArrayStack[T]) IsFull() bool {
-	return s.top == int(s.cap)-1
 }
 
 func (s *ArrayStack[T]) Clear() {
