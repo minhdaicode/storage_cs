@@ -1,12 +1,5 @@
 package stack
 
-import "errors"
-
-var (
-	ErrIsFull  = errors.New("stack is full")
-	ErrIsEmpty = errors.New("stack is empty")
-)
-
 type ArrayStack[T comparable] struct {
 	top   int
 	cap   uint

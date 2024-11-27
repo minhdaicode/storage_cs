@@ -1,13 +1,7 @@
 package linkedlist
 
 import (
-	"errors"
 	"fmt"
-)
-
-var (
-	ErrListEmpty     = errors.New("list is empty")
-	ErrPosOutOfRange = errors.New("position out of range")
 )
 
 type Node[T comparable] struct {
